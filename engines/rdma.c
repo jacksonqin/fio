@@ -44,7 +44,6 @@
 #include "../optgroup.h"
 
 #include <rdma/rdma_cma.h>
-#include <infiniband/arch.h>
 
 #define FIO_RDMA_MAX_IO_DEPTH    512
 
@@ -216,7 +215,7 @@ static int client_recv(struct thread_data *td, struct ibv_wc *wc)
 		rd->rmt_nr = ntohl(rd->recv_buf.nr);
 
 		for (i = 0; i < rd->rmt_nr; i++) {
-			rd->rmt_us[i].buf = ntohll(rd->recv_buf.rmt_us[i].buf);
+			rd->rmt_us[i].buf = be64_to_cpu(rd->recv_buf.rmt_us[i].buf);
 			rd->rmt_us[i].rkey = ntohl(rd->recv_buf.rmt_us[i].rkey);
 			rd->rmt_us[i].size = ntohl(rd->recv_buf.rmt_us[i].size);
 
@@ -802,7 +801,7 @@ static void fio_rdmaio_queued(struct thread_data *td, struct io_u **io_us,
 			      unsigned int nr)
 {
 	struct rdmaio_data *rd = td->io_ops_data;
-	struct timeval now;
+	struct timespec now;
 	unsigned int i;
 
 	if (!fio_fill_issue_time(td))
@@ -1300,7 +1299,7 @@ static int fio_rdmaio_init(struct thread_data *td)
 		}
 
 		rd->send_buf.rmt_us[i].buf =
-		    htonll((uint64_t) (unsigned long)io_u->buf);
+		    cpu_to_be64((uint64_t) (unsigned long)io_u->buf);
 		rd->send_buf.rmt_us[i].rkey = htonl(io_u->mr->rkey);
 		rd->send_buf.rmt_us[i].size = htonl(max_bs);
 

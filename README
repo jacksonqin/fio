@@ -59,7 +59,8 @@ Mailing list
 ------------
 
 The fio project mailing list is meant for anything related to fio including
-general discussion, bug reporting, questions, and development.
+general discussion, bug reporting, questions, and development. For bug reporting,
+see REPORTING-BUGS.
 
 An automated mail detailing recent commits is automatically sent to the list at
 most daily. The list address is fio@vger.kernel.org, subscribe by sending an
@@ -92,20 +93,25 @@ Binary packages
 
 Debian:
 	Starting with Debian "Squeeze", fio packages are part of the official
-	Debian repository. http://packages.debian.org/search?keywords=fio.
+	Debian repository. http://packages.debian.org/search?keywords=fio .
 
 Ubuntu:
 	Starting with Ubuntu 10.04 LTS (aka "Lucid Lynx"), fio packages are part
 	of the Ubuntu "universe" repository.
-	http://packages.ubuntu.com/search?keywords=fio.
+	http://packages.ubuntu.com/search?keywords=fio .
 
-Red Hat, CentOS & Co:
-	Dag Wieërs has RPMs for Red Hat related distros, find them here:
-	http://dag.wieers.com/rpm/packages/fio/.
+Red Hat, Fedora, CentOS & Co:
+	Starting with Fedora 9/Extra Packages for Enterprise Linux 4, fio
+	packages are part of the Fedora/EPEL repositories.
+	https://apps.fedoraproject.org/packages/fio .
 
 Mandriva:
 	Mandriva has integrated fio into their package repository, so installing
 	on that distro should be as easy as typing ``urpmi fio``.
+
+Arch Linux:
+        An Arch Linux package is provided under the Community sub-repository:
+        https://www.archlinux.org/packages/?sort=&q=fio
 
 Solaris:
 	Packages for Solaris are available from OpenCSW. Install their pkgutil
@@ -175,7 +181,9 @@ To build fio on 32-bit Windows, run ``./configure --build-32bit-win`` before
 It's recommended that once built or installed, fio be run in a Command Prompt or
 other 'native' console such as console2, since there are known to be display and
 signal issues when running it under a Cygwin shell (see
-http://code.google.com/p/mintty/issues/detail?id=56 for details).
+https://github.com/mintty/mintty/issues/56 and
+https://github.com/mintty/mintty/wiki/Tips#inputoutput-interaction-with-alien-programs
+for details).
 
 
 Documentation
@@ -204,10 +212,10 @@ implemented, I'd be happy to take patches for that. An example of that is disk
 utility statistics and (I think) huge page support, support for that does exist
 in FreeBSD/Solaris.
 
-Fio uses pthread mutexes for signalling and locking and FreeBSD does not
-support process shared pthread mutexes. As a result, only threads are
-supported on FreeBSD. This could be fixed with sysv ipc locking or
-other locking alternatives.
+Fio uses pthread mutexes for signalling and locking and some platforms do not
+support process shared pthread mutexes. As a result, on such platforms only
+threads are supported. This could be fixed with sysv ipc locking or other
+locking alternatives.
 
 Other \*BSD platforms are untested, but fio should work there almost out of the
 box. Since I don't do test runs or even compiles on those platforms, your
